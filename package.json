@@ -1,0 +1,19 @@
+{
+  "name": "advent-of-code",
+  "version": "0.0.1",
+  "description": "Solutions to the http://adventofcode.com/ challenge",
+  "dependencies": {
+    "md5": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "mock-stdin": "^0.3.0",
+    "sinon": "^1.17.2"
+  },
+  "author": "Sergio Cinos <sergio.cinos@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "test": "mocha --es_staging --harmony --harmony_destructuring --recursive --no-timeouts test/day5"
+  }
+}
