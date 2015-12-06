@@ -51,7 +51,10 @@ describe('Day 5', function () {
             assert('uurcxstgmygtbstg', 0);
         });
         it('ieodomkazucvgmuy', function() {
-            assert('ieodomkazucvgmuy', 1);
+            assert('ieodomkazucvgmuy', 0);
+        });
+        it('input', function() {
+            assertFile('input.txt', 53);
         });
     });
 
