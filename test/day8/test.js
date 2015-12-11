@@ -105,7 +105,7 @@ describe('Day 8', function () {
         it('input', function() {
             assertFile('input.txt', {
                 code: 6489,
-                char: 5118
+                char: 8606
             });
         });
 
