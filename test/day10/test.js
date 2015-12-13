@@ -1,7 +1,6 @@
 "use strict";
 
 const part1 = require('../../src/day10/part1.js');
-// const part2 = require('../../src/day9/part2.js');
 const expect = require('chai').expect;
 const fs = require('fs');
 
