@@ -1,18 +1,18 @@
 "use strict";
 
-const measures = require('../../src/day2/measures.js');
-const part1 = require('../../src/day2/part1.js');
-const part2 = require('../../src/day2/part2.js');
+const measures = require('../../src/day02/measures.js');
+const part1 = require('../../src/day02/part1.js');
+const part2 = require('../../src/day02/part2.js');
 const expect = require('chai').expect;
 const fs = require('fs');
 
 function assertPart(fn, input, output) {
     expect(fn(input)).to.equal(output);
 }
+
 function assertFilePart(fn, file, output) {
     assertPart(fn, fs.readFileSync(__dirname + '/' + file, {encoding: 'utf8'}), output);
 }
-
 
 describe('Day 2', function () {
     describe('Measures', function() {
