@@ -1,12 +1,16 @@
 "use strict";
 
-module.exports = input => {
-    const coords = [[0,0],[0,0]];
+module.exports = (agents, input) => {
+    const coords = [];
+    for (var i = 0; i < agents; i++) {
+        coords.push([0,0]);
+    }
+
     const map = {};
-    map["0,0"] = 2;
+    map["0,0"] = agents;
 
     Array.prototype.forEach.call(input, (d, i) => {
-        let s = i%2;
+        let s = i%agents;
 
         switch (d) {
             case ">": coords[s][1] = coords[s][1]+1; break;
