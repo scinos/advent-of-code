@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Solutions to the http://adventofcode.com/ challenge",
   "dependencies": {
+    "commander": "^2.9.0",
     "md5": "^2.0.0"
   },
   "devDependencies": {
@@ -14,6 +15,6 @@
   "author": "Sergio Cinos <sergio.cinos@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "test": "mocha --es_staging --harmony --harmony_destructuring --harmony_object --recursive --no-timeouts test"
+    "test": "mocha --es_staging --harmony --harmony_destructuring --harmony_object --recursive test"
   }
 }
