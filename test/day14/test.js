@@ -72,7 +72,7 @@ describe('Day 14: Reindeer Olympics', function () {
         });
 
         it('Input file', function() {
-            assertFile(2503, 'input.txt', { name: 'Donner', distance: 1089 });
+            assertFile(2503, 'input.txt', { name: 'Donner', distance: 1102 });
         });
     });
 });

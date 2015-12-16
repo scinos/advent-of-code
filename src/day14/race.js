@@ -10,8 +10,6 @@ module.exports = (raceLength, reindeers) => {
                 distance: reindeer(raceLength, speed, duration, rest)
             }
         })
-        .reduce((last, reindeer) => {
-            if (last.distance > reindeer.distance) return last;
-            else return reindeer;
-        });
+        .sort( (a,b) => b.distance-a.distance)
+        .filter((reindeer, idx, reindeers) => reindeer.distance === reindeers[0].distance);
 }

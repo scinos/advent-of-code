@@ -6,5 +6,5 @@ const extract = require('../../src/day14/extract.js');
 module.exports = (raceLength, input) => {
     let reindeers = input.split('\n').map(extract);
     let winner = race(raceLength, reindeers);
-    return winner;
+    return winner[0];
 }

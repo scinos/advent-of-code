@@ -10,8 +10,9 @@ module.exports = (raceLength, input) => {
     reindeers.forEach( r => scores[r.name]=0 )
 
     for (let i = 1; i<=raceLength; i++) {
-        let winner = race(i, reindeers);
-        scores[winner.name]++;
+        race(i, reindeers).forEach(winner => {
+            scores[winner.name]++;
+        });
     }
 
     let winner = {distance: 0};
