@@ -6,9 +6,11 @@ const CA = require('../../src/day18/ca.js');
 module.exports = input => {
     const ca = new CA(extract(input), 100);
 
-    for (var i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
         ca.iterate();
     };
 
-    return ca.state.filter(c => c === 1).length;
+    return ca.getState()
+        .reduce((a,b)=>a.concat(b), [])
+        .filter(c => c === 1).length;
 }

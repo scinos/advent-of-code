@@ -1,58 +1,85 @@
 "use strict";
 
+
+/**
+ * Creates a matrix of size WxH, using 0 for all the values
+ */
+function matrix(w, h) {
+    let m = [];
+    for (let x = 0; x < w; x++) {
+        let row = m[x] = [];
+        for (let y = 0; y < h; y++) {
+            row[y] = 0;
+        }
+    }
+    return m;
+}
+
 module.exports = class CA {
-    constructor(state, w) {
-        this.state = state;
-        this.w = w;
-        this.h = state.length/w;
+    constructor(state) {
+        this.w = state[0].length;
+        this.h = state.length;
+
+        // this.state is a matrix like <state> with a 'ring'
+        // of 0 values around.
+        this.state = matrix(this.w+2, this.h+2);
+        for (let x = 1; x < this.w+1; x++) {
+            for (let y = 1; y < this.h+1; y++) {
+                this.state[x][y] = state[x-1][y-1];
+            }
+        };
+    }
+
+    /**
+     * Returns the actual state of the CA.
+     *
+     * This is the this.state matrix without the outer ring.
+     */
+    getState() {
+        let state = [];
+        for (let x = 1; x < this.w+1; x++) {
+            state[x-1] = [];
+            for (let y = 1; y < this.h+1; y++) {
+                state[x-1][y-1] = this.state[x][y];
+            }
+        };
+
+        return state;
     }
 
     iterate() {
-        this.state = this.state.map((state, c) => {
-            const n = this.getNeighbors(c).filter(n=>n===1).length;
-            if ( (state === 1 && (n===2 || n===3)) ||
-                 (state === 0 && n===3) ) {
-                return 1;
-            } else {
-                return 0;
+        let newState = matrix(this.w+2, this.h+2);
+
+        for (let x = 1; x < this.state.length-1; x++) {
+            let row = this.state[x];
+            let newRow = newState[x];
+            for (let y = 1; y < row.length-1; y++) {
+                const n = this.sumNeighbors(x, y);
+                const state = this.state[x][y];
+
+                if ( (state === 1 && (n===2 || n===3)) ||
+                     (state === 0 && n===3) ) {
+                    newRow[y] = 1;
+                } else {
+                    newRow[y] = 0;
+                }
             }
-        });
+        };
+        this.state = newState;
     }
 
-    getNeighbors(c) {
-        const neighbors = [];
-        const coords = this.linerToMatrix(c);
-        [
-            [coords[0]-1, coords[1]-1],
-            [coords[0]  , coords[1]-1],
-            [coords[0]+1, coords[1]-1],
-            [coords[0]-1, coords[1]  ],
-            [coords[0]+1, coords[1]  ],
-            [coords[0]-1, coords[1]+1],
-            [coords[0]  , coords[1]+1],
-            [coords[0]+1, coords[1]+1]
-        ].forEach(coords => {
-            if (this.inRange(coords)) {
-                neighbors.push(this.state[this.matrixToLinear(coords)]);
-            } else {
-                neighbors.push(0);
-            }
-        })
-
-        return neighbors;
+    sumNeighbors(x, y) {
+        return this.state[x-1][y-1] +
+               this.state[x  ][y-1] +
+               this.state[x+1][y-1] +
+               this.state[x-1][y  ] +
+               this.state[x+1][y  ] +
+               this.state[x-1][y+1] +
+               this.state[x  ][y+1] +
+               this.state[x+1][y+1];
     }
 
-    inRange([x,y]) {
-        return x >= 0 && x < this.w &&
-               y >= 0 && y < this.h;
+    set(x, y, v) {
+        this.state[x+1][y+1]=v;
     }
-
-    linerToMatrix(c) {
-        return [c%this.w, Math.floor(c/this.w)]
-    }
-
-    matrixToLinear([x,y]) {
-        return y*this.w + x;
-    }
-
 }
