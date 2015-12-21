@@ -6,5 +6,5 @@ module.exports = seed => {
     for (let i = 0; i < 50; i++) {
         seed = sequence(seed);
     };
-    return seed;
+    return seed.length;
 }

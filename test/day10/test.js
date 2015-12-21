@@ -21,13 +21,13 @@ describe('Day 10: Elves Look, Elves Say', function () {
 
     describe('Part 1', function() {
         it('Input file', function() {
-            expect(part1(file).length).to.equal(252594);
+            expect(part1(file)).to.equal(252594);
         });
     });
 
     describe('Part 2', function() {
         it('Input file', function() {
-            expect(part2(file).length).to.equal(3579328);
+            expect(part2(file)).to.equal(3579328);
         });
     });
 });
