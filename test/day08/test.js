@@ -1,5 +1,7 @@
 "use strict";
 
+const decode = require('../../src/day08/decode.js');
+const encode = require('../../src/day08/encode.js');
 const part1 = require('../../src/day08/part1.js');
 const part2 = require('../../src/day08/part2.js');
 const expect = require('chai').expect;
@@ -15,99 +17,43 @@ function assertFilePart(fn, file, output) {
     assertPart(fn, fs.readFileSync(__dirname + '/' + file, {encoding: 'utf8'}), output);
 }
 
-describe('Day 8', function () {
-    describe('Part 1', function() {
-        const assert = assertPart.bind({}, part1);
-        const assertFile = assertFilePart.bind({}, part1);
-
-        it('""', function() {
-            assert('""', {
-                code: 2,
-                char: 0
-            });
+describe('Day 8: Matchsticks', function () {
+    describe('Encode', function() {
+        it('Encode strings', function() {
+            expect(decode('""')).to.be.equal('');
+            expect(decode('"abc"')).to.be.equal('abc');
+            expect(decode('"aaa\\"aaa"')).to.be.equal('aaa!aaa');
+            expect(decode('"\\x27"')).to.be.equal('@');
+            expect(decode('"\\\\abc\\\\"')).to.be.equal('#abc#');
         });
+    });
 
-        it('"abc"', function() {
-            assert('"abc"', {
-                code: 5,
-                char: 3
-            });
+    describe('Decode', function() {
+        it('Decodes strings', function() {
+            expect(encode('""')).to.be.equal('"\\"\\""');
+            expect(encode('"abc"')).to.be.equal('"\\"abc\\""');
+            expect(encode('"aaa\\"aaa"')).to.be.equal('"\\"aaa\\\\\\"aaa\\""');
+            expect(encode('"\\x27"')).to.be.equal('"\\"\\\\x27\\""');
+            expect(encode('"\\\\abc\\\\"')).to.be.equal('"\\"\\\\\\\\abc\\\\\\\\\\""');
         });
+    });
 
-        it('"aaa\\"aaa"', function() {
-            assert('"aaa\\"aaa"', {
-                code: 10,
-                char: 7
-            });
-        });
 
-        it('"\\x27"', function() {
-            assert('"\\x27"', {
-                code: 6,
-                char: 1
-            });
-        });
+    describe('Part 1 - Encode strings', function() {
+        it('Input file', function() {
+            const file = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'});
+            const result = part1(file);
 
-        it('"\\\\abc\\\\"', function() {
-            assert('"\\\\abc\\\\"', {
-                code: 9,
-                char: 5
-            });
-        });
-
-        it('input', function() {
-            assertFile('input.txt', {
-                code: 6489,
-                char: 5118
-            });
+            expect(result).to.equal(1371);
         });
     });
 
     describe('Part 2', function() {
-        const assert = assertPart.bind({}, part2);
-        const assertFile = assertFilePart.bind({}, part2);
+        it('Input file', function() {
+            const file = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'});
+            const result = part2(file);
 
-        it('""', function() {
-            assert('""', {
-                code: 2,
-                char: 6
-            });
+            expect(result).to.equal(2117);
         });
-
-        it('"abc"', function() {
-            assert('"abc"', {
-                code: 5,
-                char: 9
-            });
-        });
-
-        it('"aaa\\"aaa"', function() {
-            assert('"aaa\\"aaa"', {
-                code: 10,
-                char: 16
-            });
-        });
-
-        it('"\\x27"', function() {
-            assert('"\\x27"', {
-                code: 6,
-                char: 11
-            });
-        });
-
-        it('"\\\\abc\\\\"', function() {
-            assert('"\\\\abc\\\\"', {
-                code: 9,
-                char: 17
-            });
-        });
-
-        it('input', function() {
-            assertFile('input.txt', {
-                code: 6489,
-                char: 8606
-            });
-        });
-
     });
 });
