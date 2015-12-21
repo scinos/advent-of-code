@@ -1,6 +1,8 @@
 "use strict";
 
+const wire = require('../../src/day07/wire.js');
 const part1 = require('../../src/day07/part1.js');
+const part2 = require('../../src/day07/part2.js');
 const expect = require('chai').expect;
 const fs = require('fs');
 
@@ -10,13 +12,10 @@ function assertPart(fn, input, output) {
         expect(result[k].getSignal()).to.equal(output[k]);
     }
 }
-function assertFilePart(fn, file, output) {
-    assertPart(fn, fs.readFileSync(__dirname + '/' + file, {encoding: 'utf8'}), output);
-}
 
 describe('Day 7', function () {
-    describe('Part 1', function() {
-        const assert = assertPart.bind({}, part1);
+    describe('Wires', function() {
+        const assert = assertPart.bind({}, wire);
 
         it('signal', function() {
             assert('123 -> x', {
@@ -77,22 +76,19 @@ describe('Day 7', function () {
                 i: 65079
             });
         })
+    });
 
-        it('input', function() {
-            const input = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'});
-            const result = part1(input);
-
-            expect(result['a'].getSignal()).to.deep.equal(956);
-        })
+    describe('Part 1', function() {
+        it('Input file', function() {
+            let input = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'});
+            expect(part1(input)).to.deep.equal(956);
+        });
     });
 
     describe('Part 2', function() {
-        it('input', function() {
+        it('Input file', function() {
             let input = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'});
-            input = input.replace('14146 -> b','956 -> b')
-            const result = part1(input);
-
-            expect(result['a'].getSignal()).to.deep.equal(40149);
+            expect(part2(input)).to.deep.equal(40149);
         })
     });
 
