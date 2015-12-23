@@ -10,12 +10,11 @@ const rl = readline.createInterface({
 });
 
 program
-  .usage('[options] <args ...>')
-  .option('-d --day <n>', 'Day number', function(val) {
+  .option('-d, --day <n>', 'Day number', function(val) {
     let v = Number(val).toString();
     return v.length<2 ? "0"+v : v;
   })
-  .option('-p --part <n>', 'Part number', parseInt)
+  .option('-p, --part <n>', 'Part number', parseInt)
   .parse(process.argv);
 
 if (!program.day) {
@@ -27,7 +26,7 @@ if (!program.part) {
     program.optionMissingArgument(program.optionFor('-p'));
 }
 
-let part = require(__dirname + "/day" + program.day + "/part" + program.part+".js");
+let part = require(__dirname + "/src/day" + program.day + "/part" + program.part+".js");
 
 let lines = [];
 rl.on('line', line => lines.push(line));
