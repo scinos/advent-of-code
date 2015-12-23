@@ -24,5 +24,5 @@ module.exports = input => {
         }
     }
 
-    return [result, maxTotal];
+    return maxTotal;
 }

@@ -4,8 +4,11 @@ const extract = require('../../src/day15/extract.js');
 const partitions = require('../../src/day15/partition.js');
 const part1 = require('../../src/day15/part1.js');
 const part2 = require('../../src/day15/part2.js');
+
 const expect = require('chai').expect;
 const fs = require('fs');
+
+const file = fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'})
 
 describe('Day 15: Science for Hungry People', function () {
     describe("Spec extractor", function() {
@@ -55,18 +58,11 @@ describe('Day 15: Science for Hungry People', function () {
                 "Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3"
             ].join('\n'))
 
-            expect(result).to.deep.equal([
-                {"Butterscotch": 44, "Cinnamon": 56},
-                62842880
-            ]);
+            expect(result).to.equal(62842880);
         });
 
         it("Input file", function() {
-            let result = part1(fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'}));
-            expect(result).to.deep.equal([
-                {Sprinkles: 28, PeanutButter: 35, Frosting: 18, Sugar: 19},
-                13882464
-            ]);
+            expect(part1(file)).to.equal(13882464);
         });
     });
 
@@ -77,18 +73,11 @@ describe('Day 15: Science for Hungry People', function () {
                 "Cinnamon: capacity 2, durability 3, flavor -2, texture -1, calories 3"
             ].join('\n'))
 
-            expect(result).to.deep.equal([
-                {"Butterscotch": 40, "Cinnamon": 60},
-                57600000
-            ]);
+            expect(result).to.equal(57600000);
         });
 
         it("Input file", function() {
-            let result = part2(fs.readFileSync(__dirname + '/input.txt', {encoding: 'utf8'}));
-            expect(result).to.deep.equal([
-                {Sprinkles: 27, PeanutButter: 27, Frosting: 15, Sugar: 31},
-                11171160
-            ]);
+            expect(part2(file)).to.deep.equal(11171160);
         });
 
     });
