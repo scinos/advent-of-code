@@ -25,5 +25,5 @@ module.exports = input => {
         });
     }
 
-    return aunts;
+    return aunts[0].number;
 }
