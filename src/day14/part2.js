@@ -1,28 +1,11 @@
 "use strict";
 
-const race = require('../../src/day14/race.js');
+const racePoints = require('../../src/day14/racePoints.js');
 const extract = require('../../src/day14/extract.js');
 
-module.exports = (raceLength, input) => {
-    let reindeers = input.split('\n').map(extract);
-    let scores = {};
-
-    reindeers.forEach( r => scores[r.name]=0 )
-
-    for (let i = 1; i<=raceLength; i++) {
-        race(i, reindeers).forEach(winner => {
-            scores[winner.name]++;
-        });
-    }
-
-    let winner = {distance: 0};
-    for (let reindeer in scores) {
-        let distance = scores[reindeer];
-        if (distance > winner.distance) {
-            winner.distance = distance;
-            winner.name = reindeer;
-        }
-    }
-
-    return winner;
+module.exports = input => {
+    const raceLength = 2503;
+    const reindeers = input.split('\n').map(extract);
+    const winner = racePoints(raceLength, reindeers);
+    return winner.distance;
 }
