@@ -68,15 +68,15 @@ describe('Day 21: RPG Simulator 20XX', function () {
 
     describe("Part 1 - Cheapest win", function() {
         it ("Input file", function() {
-            const result = part1(__dirname + '/items.txt', file);
-            expect(result).to.deep.equal({ winner: 'player', cost: 78 });
+            const result = part1(file);
+            expect(result).to.equal(78);
         });
     });
 
     describe("Part 2 - Most expensive loss", function() {
         it ("Input file", function() {
-            const result = part2(__dirname + '/items.txt', file);
-            expect(result).to.deep.equal({ winner: 'boss', cost: 148 });
+            const result = part2(file);
+            expect(result).to.equal(148);
         });
     });
 });
