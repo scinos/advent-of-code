@@ -15,6 +15,6 @@
   "author": "Sergio Cinos <sergio.cinos@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "test": "mocha --es_staging --harmony --harmony_destructuring --harmony_object --no-timeouts --recursive test"
+    "test": "mocha --es_staging --harmony --harmony_destructuring --no-timeouts --recursive test"
   }
 }
