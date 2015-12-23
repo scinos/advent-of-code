@@ -1,6 +1,9 @@
 Advent of Code solutions
 ========================
 
+![codeship status](https://codeship.com/projects/92e8c360-8b88-0133-2c21-16cdf1c92cd5/status?branch=master "Codeship Status")
+
+
 These are my solutions to the [Advent of Code](http://adventofcode.com/) challenge.
 
 Installation
