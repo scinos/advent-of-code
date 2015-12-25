@@ -1,104 +1,51 @@
 "use strict";
 
-module.exports = ({player, boss, spells, hardMode = false}) => {
-    let winner;
-    let activeSpells = [];
+const turn = require('./turn.js');
+const SPELLS = require('./spells.js');
 
-    for (let spell of spells) {
-        //Player
-        if (winner = applyHardMode()) return winner;
-        if (winner = processBuffs()) return winner;
-        if (winner = cast(spell)) return winner;
-
-        // Boss
-        if (winner = processBuffs()) return winner;
-        if (winner = attack()) return winner;
+module.exports = spellTemplate => {
+    let spellCombinations = [];
+    for (let spellId in SPELLS) {
+        spellCombinations.push({
+            spellId: spellId,
+            player: {hitPoints: spellTemplate.player.hitPoints, mana: spellTemplate.player.mana, armor: spellTemplate.player.armor},
+            boss: {hitPoints: spellTemplate.boss.hitPoints, damage: spellTemplate.boss.damage},
+            activeSpells: [0,0,0,0,0],
+            hardMode: spellTemplate.hardMode,
+            cost: SPELLS[spellId].cost
+        });
     }
 
-    function applyHardMode() {
-        if (hardMode) {
-            player.hitPoints--;
-            return getWinner();
+    let bestCost = Infinity;
+    let spellCombination;
+
+    while (spellCombination = spellCombinations.pop()) {
+        let result = turn(spellCombination);
+        let currentCost = spellCombination.cost
+
+        if (result.winner === null && currentCost <= bestCost) {
+            // If the battle is not over, and the current spell combination is cheaper
+            // than the best spell combination, add more variations of this spell
+            // combination.
+            for (let spellId in SPELLS) {
+                spellCombinations.push({
+                    spellId: spellId,
+                    player: {hitPoints: result.player.hitPoints, mana: result.player.mana, armor: result.player.armor},
+                    boss: {hitPoints: result.boss.hitPoints, damage: result.boss.damage},
+                    activeSpells: result.activeSpells.slice(),
+                    hardMode: spellCombination.hardMode,
+                    cost: currentCost + SPELLS[spellId].cost
+                });
+            }
+        } else if (result.winner === 'Player') {
+            // If the winner is the player, we don't need to keep expanding this
+            // spell combination. Save the spell cobination and update the best
+            // cost if needed.
+            if (currentCost < bestCost) {
+                bestCost = currentCost;
+            }
         }
     }
 
-    function cast(spell) {
-        // If there is no enough mana, the cast is invalid
-        if (spell.cost > player.mana) return true;
-
-        // If the spell is already in the queue, the cast is invalid
-        for (var i = 0; i < activeSpells.length; i++) {
-            let b = activeSpells[i];
-            if (b.duration > 0 && spell.name === b.name) return true;
-        }
-
-        // Discount the spell cost
-        player.mana -= spell.cost;
-
-        if (spell.duration) {
-            // If it is an effect, add it to the queue
-            activeSpells.push({
-                name: spell.name,
-                cost: spell.cost,
-                damage: spell.damage,
-                heal: spell.heal,
-                armor: spell.armor,
-                mana: spell.mana,
-                duration: spell.duration,
-            });
-        } else {
-            // If it is not an effect, process is immediately
-            if (spell.damage) boss.hitPoints -= spell.damage;
-            if (spell.heal) player.hitPoints += spell.heal;
-        }
-
-        // Determine the winner
-        return getWinner();
-    }
-
-    function attack() {
-        // Reduce the armor to the damage, but ensure it is at least 1.
-        let damage = Math.max(1, boss.damage-player.armor);
-
-        player.hitPoints -= damage;
-        return getWinner();
-    }
-
-    function processBuffs() {
-        // Always reset the armor. If there is a buff to add armor, we will
-        // process it here.
-        player.armor = 0;
-
-        let newActiveSpells = [];
-
-
-        for (var i = 0; i < activeSpells.length; i++) {
-            let buff = activeSpells[i];
-
-            // Process the buff
-            buff.duration--;
-            if (buff.damage) boss.hitPoints -= buff.damage;
-            if (buff.mana) player.mana += buff.mana;
-            if (buff.armor) player.armor = buff.armor;
-
-            // If the spell is not over, save if for the next turn
-            if (buff.duration > 0) newActiveSpells.push(buff);
-        };
-
-        activeSpells = newActiveSpells;
-
-        return getWinner();
-    }
-
-    function invalidCast(buff) {
-    }
-
-    function getWinner() {
-        if (boss.hitPoints <= 0) return 'Player';
-        if (player.hitPoints <= 0) return 'Boss'
-        return null;
-    }
-
+   return bestCost;
 }
-
-
